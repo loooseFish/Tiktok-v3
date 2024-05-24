@@ -1,15 +1,12 @@
 <template>
-  <div>
-    <router-view></router-view>
-  </div>
+  <router-view></router-view>
+  <Vfooter />
 </template>
 
 <script setup>
+import Vfooter from './views/footer.vue';
 </script>
 
 <style scoped>
-* {
-  margin: 0;
-  padding: 0;
-}
+
 </style>
