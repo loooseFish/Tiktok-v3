@@ -7,7 +7,6 @@
         </div>
         <div class="block noactive" @click="checkThis(2, 'info')">消息</div>
         <div class="block noactive" @click="checkThis(3, 'mine')">我的</div>
-        
     </div>
 </template>
 
@@ -73,11 +72,14 @@ onMounted(() => {
 // ----------------------------------------------
 
 .footer {
+    z-index: 5;
     position: fixed;
     bottom: 0;
 
     border-top: (1 / @rootsize) solid #eeeeee36;
     .displayFlex(center, row);
+
+    background-color: black;
 
     width: 100%;
     height: (45 / @rootsize);
