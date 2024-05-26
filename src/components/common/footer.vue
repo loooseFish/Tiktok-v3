@@ -3,7 +3,7 @@
         <div class="block active" @click="checkThis(0, 'home')">首页</div>
         <div class="block noactive" @click="checkThis(1, 'attention')">关注</div>
         <div class="addimg">
-            <img src="../assets/add.svg" alt="">
+            <img src="/src/assets/add.svg" alt="">
         </div>
         <div class="block noactive" @click="checkThis(2, 'info')">消息</div>
         <div class="block noactive" @click="checkThis(3, 'mine')">我的</div>
@@ -14,7 +14,7 @@
 import { onMounted, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
-import { switchBar } from '../hooks/use-switchBar';
+import { switchBar } from '../../hooks/use-switchBar';
 // 路由优化 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 const router = useRouter();
 const route = useRoute();
@@ -77,12 +77,21 @@ onMounted(() => {
     bottom: 0;
 
     border-top: (1 / @rootsize) solid #eeeeee36;
+    box-shadow: (0 / @rootsize) (-5 / @rootsize) (5 / @rootsize) #eeeeee20; 
     .displayFlex(center, row);
 
     background-color: black;
 
     width: 100%;
-    height: (45 / @rootsize);
+    height: 7vh;
+
+    .addimg{
+        position: relative;
+        top: (2 / @rootsize);
+        img{
+            width: (40 / @rootsize);
+        }
+    }
 
     .block {
         font-size: (13.3 / @rootsize);
