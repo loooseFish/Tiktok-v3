@@ -4,9 +4,7 @@
 </template>
 
 <script setup>
-import Vfooter from './views/footer.vue';
+import Vfooter from './components/common/footer.vue';
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
