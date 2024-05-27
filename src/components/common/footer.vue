@@ -72,7 +72,7 @@ onMounted(() => {
 // ----------------------------------------------
 
 .footer {
-    z-index: 5;
+    z-index: 50;
     position: fixed;
     bottom: 0;
 
