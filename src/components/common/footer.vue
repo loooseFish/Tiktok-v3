@@ -12,15 +12,14 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 import { switchBar } from '../../hooks/use-switchBar';
 // 路由优化 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 const router = useRouter();
-const route = useRoute();
-if (router.path !== '/home') {
-    router.replace('/home')
-}
+// if (router.path !== '/home') {
+//     router.replace('/home')
+// }
 // 路由优化 ////////////////////////////////////
 
 
@@ -30,7 +29,9 @@ let oldArr = [];
 let newArr = [];
 
 let checkThis = function (index, path) {
-    switchBar(newArr, index, 'block active', 'block noactive');
+    if(localStorage.getItem('data')){
+        switchBar(newArr, index, 'block active', 'block noactive');
+    }
 
     router.push({ path: `/${path}` });
 }
@@ -77,10 +78,10 @@ onMounted(() => {
     bottom: 0;
 
     border-top: (1 / @rootsize) solid #eeeeee36;
-    box-shadow: (0 / @rootsize) (-5 / @rootsize) (5 / @rootsize) #eeeeee20; 
+    box-shadow: (0 / @rootsize) (-5 / @rootsize) (5 / @rootsize) #eeeeee10; 
     .displayFlex(center, row);
 
-    background-color: black;
+    background-color: #161622;
 
     width: 100%;
     height: 7vh;
@@ -102,18 +103,18 @@ onMounted(() => {
     }
 
     .active {
-        transition: all 0.2s;
+        transition: all 0.3s;
         color: white;
         position: relative;
     }
 
     .noactive {
-        transition: all 0.2s;
+        transition: all 0.3s;
         color: rgb(203, 202, 202);
     }
 
     .active::after {
-        transition: all 0.2s;
+        transition: all 0.3s;
         .after();
         left: 0;
         bottom: (-7 / @rootsize);
