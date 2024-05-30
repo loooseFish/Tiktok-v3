@@ -2,6 +2,7 @@ import {
     createRouter,
     createWebHashHistory,
 } from 'vue-router'
+// pinia注入
 import { useDataStore } from '../store';
 import { computed } from 'vue';
 
@@ -9,7 +10,12 @@ import home from '../views/home.vue'
 import attention from '../views/attention.vue'
 import info from '../views/info.vue'
 import mine from '../views/mine.vue'
+// home
 import login from '../components/home/login.vue'
+// mine
+import works from '../components/mine/works.vue'
+import likes from '../components/mine/likes.vue'
+import dynamic from '../components/mine/dynamic.vue'
 
 const routes = [
     {
@@ -31,7 +37,22 @@ const routes = [
     },
     {
         path: '/mine',
-        component: mine
+        component: mine,
+        redirect: '/mine/works',
+        children: [
+            {
+                path: 'works',
+                component: works,
+            },
+            {
+                path: 'likes',
+                component: likes,
+            },
+            {
+                path: 'dynamic',
+                component: dynamic,
+            },
+        ],
     },
     {
         path: '/login',
