@@ -67,7 +67,6 @@ let attentions = ref([])
 onBeforeMount(async () => {
     await attentionInfo().then(res => { attentions.value = res.data.data });
 })
-attentionInfo().then(res => { attentions.value = res.data.data })
 // 数据获取 /////////////////////////////////////////////////////////////////////
 
 // scroll滚动 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -104,7 +103,7 @@ onMounted(() => {
 // scroll滚动 //////////////////////////////////////////////////////////////////
 </script>
 
-<style lang="less">
+<style scoped lang="less">
 // ----------------------------------------------
 :root {
     --textSize: (16 / @rootsize);

@@ -5,9 +5,7 @@ const app = createApp(App)
 import router from './router'
 app.use(router);
 // pinia
-import { createPinia, PiniaVuePlugin } from 'pinia';
-app.use(PiniaVuePlugin);
-const pinia = createPinia();
+import pinia from './utils/index.js'
 app.use(pinia);
 
 app.mount('#app')

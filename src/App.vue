@@ -4,6 +4,7 @@
     <AsyncComp v-if="loginShow" />
   </Transition>
   <Vfooter />
+  <!-- <loader /> -->
 </template>
 
 <script setup>
