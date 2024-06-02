@@ -11,6 +11,12 @@
 // 组件注册
 import Vfooter from './components/common/footer.vue';
 import login from './components/home/login.vue';
+
+// getCurrentInstance获取当前组件实例的上下文信息
+// import { getCurrentInstance } from "vue"
+// const demo = getCurrentInstance().appContext.config.globalProperties.$freshing;
+// demo()
+
 const AsyncComp = defineAsyncComponent(() => {
   return new Promise((resolve, reject) => {
     // ...从服务器获取组件

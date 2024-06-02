@@ -37,8 +37,6 @@
     width: (30 / @rootsize);
     height: (30 / @rootsize);
     animation: rotation 1s linear infinite;
-
-    z-index: 1000;
 }
 
 .loader::after,
