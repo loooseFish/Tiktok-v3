@@ -1,5 +1,5 @@
 <template>
-    <div class="main">
+    <div ref="main" class="main">
         <div class="backPic">
             <span>
                 <img src="http://43.138.15.137:8080/assets/img/281578538336_.pic_hd.e816ad71.jpg" alt=" ">
@@ -56,7 +56,7 @@
 
 <script setup>
 // API
-import { onBeforeMount, ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 // axios
 import { selfVideosInfo } from '../service/course';
 // router
@@ -64,6 +64,8 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 // hooks
 import { switchBar } from '../hooks/use-switchBar';
+import { move } from '../hooks/use-scroll';
+// 组件
 
 onBeforeMount(async () => {
     // await selfVideosInfo().then(res => console.log(res))
@@ -78,6 +80,13 @@ let checkRouter = function (path, index) {
     switchBar(tab.value.children, index, 'tab-item isActive', 'tab-item')
 }
 // 路由跳转 //////////////////////////
+
+// // 下拉刷新，上拉加载
+// let main = ref(null);
+// onMounted(() => {
+//     move(main.value);
+// })
+
 </script>
 
 <style lang="less" scoped>

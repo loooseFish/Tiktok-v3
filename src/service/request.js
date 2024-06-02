@@ -1,5 +1,5 @@
 // pinia注入
-import pinia from '../utils';
+import pinia from '../utils/pinia';
 import { useDataStore } from '../store';
 const $store = useDataStore(pinia);
 import { computed } from 'vue';

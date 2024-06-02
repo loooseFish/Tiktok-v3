@@ -1,6 +1,7 @@
 <template>
     <div ref="attention" class="attention">
-        <div ref="content" class="content">
+        <div ref="fresh" class="fresh"></div>
+        <div v-if="loaderShow" ref="content" class="content">
             <div class='filler' v-for="item, index in attentions.slice(0, showAttentions)">
                 <div class="userinfo">
                     <span>&nbsp;&nbsp;<img :src="`http://43.138.15.137:3000${attentions[index].Video.userAvatar}`"
@@ -51,17 +52,34 @@
                     {{ new Date(attentions[index].Video.createdAt).getDate() }}
                 </div>
             </div>
+            <div class="noMore">暂时没有更多了</div>
         </div>
+        <div v-else class="loader">
+            <loader />
+        </div>
+        <div ref="upload" class="upload"></div>
     </div>
 </template>
 
 <script setup>
 // API
-import { onBeforeMount, ref, toRaw, onMounted } from 'vue';
+import { onBeforeMount, ref, toRaw, onMounted, getCurrentInstance } from 'vue';
 // axios
 import { attentionInfo } from '../service/course';
 // hooks
 import { debounce } from '../hooks/use-debounce';
+import { move } from '../hooks/use-scroll';
+// Pinia注入
+import { useDataStore } from '../store';
+import { computed } from 'vue'
+const $store = useDataStore();
+const loaderShow = computed({
+    get: () => $store.loaderShow,
+    set: (value) => $store.loaderShow = value
+});
+// 组件注册
+import loader from '../components/common/loader.vue';
+
 // 数据获取 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 let attentions = ref([])
 onBeforeMount(async () => {
@@ -72,32 +90,22 @@ onBeforeMount(async () => {
 // scroll滚动 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 // dom元素获取
 let attention = ref(null);
-
+let fresh = ref(null);
+let upload = ref(null);
 let content = ref(null);
 // 变量设置
 let showAttentions = ref(10);
 onMounted(() => {
-    let touching = false;
+    move(attention.value, fresh.value, upload.value);
 
-    attention.value.addEventListener('scroll', debounce((e) => {
-        if (!touching) {
-            if (attention.value.scrollTop + document.body.offsetHeight >= attention.value.scrollHeight) {
+    if (loaderShow.value) {
+
+        attention.value.addEventListener('scroll', debounce((e) => {
+            if (attention.value.scrollTop + document.body.offsetHeight + 300 >= attention.value.scrollHeight) {
                 showAttentions.value += 10;
             }
-            // e.stopPropagation();
-        }
-    }));
-    content.value.addEventListener('touchstart', () => {
-        touching = true;
-    });
-
-    content.value.addEventListener('touchmove', () => {
-        touching = true;
-    });
-
-    content.value.addEventListener('touchend', () => {
-        touching = false;
-    });
+        }));
+    }
 
 })
 // scroll滚动 //////////////////////////////////////////////////////////////////
@@ -217,6 +225,17 @@ onMounted(() => {
 
         }
 
+        .noMore {
+            position: relative;
+            top: (-10 / @rootsize);
+            text-align: center;
+        }
+    }
+
+    .loader {
+        position: fixed;
+        top: 50%;
+        width: 100%;
     }
 
 }

@@ -5,7 +5,10 @@ const app = createApp(App)
 import router from './router'
 app.use(router);
 // pinia
-import pinia from './utils/index.js'
+import pinia from './utils/pinia.js'
 app.use(pinia);
+// 注册全局插件 ----------------------------------------------------
+import myPlugin from './utils/prototype/index.js';
+app.use(myPlugin)
 
 app.mount('#app')

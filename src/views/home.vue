@@ -1,7 +1,8 @@
 <template>
     <div ref="home" class="home">
 
-        <div v-if="loaderShow" ref="content" class="content">
+
+        <div ref="content" class="content">
 
             <div v-for="(item, index) in comData.slice(0, showVideos)" class="filler">
                 <div></div>
@@ -61,10 +62,10 @@
                 </div>
             </div>
 
-        </div>
+            <div v-if="!loaderShow" class="loader">
+                <loader />
+            </div>
 
-        <div v-else class="loader">
-            <loader />
         </div>
 
         <!-- <div ref="doubleOut" @click="createHeart($event)" class="doubleOut"></div> -->
@@ -115,78 +116,73 @@ let isMove = ref(false);
 let showVideos = ref(5);
 
 onMounted(() => {
-    if (loaderShow.value) {
+    content.value.addEventListener('touchstart', (e) => {
+        isMove.value = false;
+        content.value.style.transition = '';
+        startX.value = e.changedTouches[0].pageY;
+    })
+    content.value.addEventListener('touchmove', (e) => {
+        isMove.value = true;
+        moveX.value = e.changedTouches[0].pageY;
+        someAttrLf.value[nowShowVideo.value].style.opacity = '.6';
+        someAttrRg.value[nowShowVideo.value].style.opacity = '.6';
+        content.value.style.top = (defaultY.value + -(startX.value - moveX.value)) + 'px';
+    })
+    content.value.addEventListener('touchend', (e) => {
+        nowShowVideo.value = Math.round((-content.value.offsetTop / content.value.scrollHeight) * content.value.children.length);
+        if (nowShowVideo.value < 0) nowShowVideo.value = 0;
+        if (isMove.value) {
+            let lastY = (nowShowVideo.value * content.value.children[0].offsetHeight);
+            if (nowShowVideo.value > showVideos.value - 3) {
+                showVideos.value += 5
+            }
+            if (lastY < 0) {
+                defaultY.value = 0;
+                content.value.style.transition = 'all 0.3s'
+                content.value.style.top = 0 + 'px';
+                return
+            } else if (content.value.scrollHeight <= -content.value.offsetTop + document.body.clientHeight) {
+                nowShowVideo.value = content.value.children.length - 1;
+                defaultY.value = -((nowShowVideo.value) * content.value.children[0].offsetHeight);
+                content.value.style.transition = 'all 0.3s'
+                someAttrLf.value[nowShowVideo.value].style.opacity = '1';
+                someAttrRg.value[nowShowVideo.value].style.opacity = '1';
+                content.value.style.top = -((nowShowVideo.value) * content.value.children[0].offsetHeight) + 'px';
+                return
+            } else {
+                someAttrLf.value[nowShowVideo.value].style.opacity = '1';
+                someAttrRg.value[nowShowVideo.value].style.opacity = '1';
+                defaultY.value = -lastY;
+                content.value.style.transition = 'all 0.3s'
+                content.value.style.top = -lastY + 'px';
 
-        content.value.addEventListener('touchstart', (e) => {
-            isMove.value = false;
-            content.value.style.transition = '';
-            startX.value = e.changedTouches[0].pageY;
-        })
-        content.value.addEventListener('touchmove', (e) => {
-            isMove.value = true;
-            moveX.value = e.changedTouches[0].pageY;
-            someAttrLf.value[nowShowVideo.value].style.opacity = '.6';
-            someAttrRg.value[nowShowVideo.value].style.opacity = '.6';
-            content.value.style.top = (defaultY.value + -(startX.value - moveX.value)) + 'px';
-        })
-        content.value.addEventListener('touchend', (e) => {
-            nowShowVideo.value = Math.round((-content.value.offsetTop / content.value.scrollHeight) * content.value.children.length);
-            if (nowShowVideo.value < 0) nowShowVideo.value = 0;
-            if (isMove.value) {
-                let lastY = (nowShowVideo.value * content.value.children[0].offsetHeight);
-                if (nowShowVideo.value > showVideos.value - 3) {
-                    showVideos.value += 5
+                for (let i = 0; i < content.value.children.length; i++) {
+                    content.value.children[i].children[1].children[0].currentTime = 0;
+                    content.value.children[i].children[1].children[0].pause();
                 }
-                if (lastY < 0) {
-                    defaultY.value = 0;
-                    content.value.style.transition = 'all 0.3s'
-                    content.value.style.top = 0 + 'px';
-                    return
-                } else if (content.value.scrollHeight <= -content.value.offsetTop + document.body.clientHeight) {
-                    nowShowVideo.value = content.value.children.length - 1;
-                    defaultY.value = -((nowShowVideo.value) * content.value.children[0].offsetHeight);
-                    content.value.style.transition = 'all 0.3s'
-                    someAttrLf.value[nowShowVideo.value].style.opacity = '1';
-                    someAttrRg.value[nowShowVideo.value].style.opacity = '1';
-                    content.value.style.top = -((nowShowVideo.value) * content.value.children[0].offsetHeight) + 'px';
-                    return
-                } else {
-                    someAttrLf.value[nowShowVideo.value].style.opacity = '1';
-                    someAttrRg.value[nowShowVideo.value].style.opacity = '1';
-                    defaultY.value = -lastY;
-                    content.value.style.transition = 'all 0.3s'
-                    content.value.style.top = -lastY + 'px';
+            }
+            flagPause.value = true;
 
-                    for (let i = 0; i < content.value.children.length; i++) {
-                        content.value.children[i].children[1].children[0].currentTime = 0;
-                        content.value.children[i].children[1].children[0].pause();
-                    }
-                }
-                flagPause.value = true;
-
+            if (!flagPause.value) {
+                content.value.children[nowShowVideo.value].children[1].children[0].pause();
+            } else {
+                content.value.children[nowShowVideo.value].children[1].children[0].play()
+            }
+            content.value.children[nowShowVideo.value].children[1].children[0].play();
+            content.value.children[nowShowVideo.value].children[1].children[0].style.zIndex = '30';
+        } else {
+            if (e.target.nodeName === 'VIDEO') {
+                flagPause.value = !flagPause.value;
                 if (!flagPause.value) {
                     content.value.children[nowShowVideo.value].children[1].children[0].pause();
                 } else {
                     content.value.children[nowShowVideo.value].children[1].children[0].play()
                 }
-                content.value.children[nowShowVideo.value].children[1].children[0].play();
-                content.value.children[nowShowVideo.value].children[1].children[0].style.zIndex = '30';
-            } else {
-                if (e.target.nodeName === 'VIDEO') {
-                    flagPause.value = !flagPause.value;
-                    if (!flagPause.value) {
-                        content.value.children[nowShowVideo.value].children[1].children[0].pause();
-                    } else {
-                        content.value.children[nowShowVideo.value].children[1].children[0].play()
-                    }
-                }
             }
+        }
 
-            return false;
-        })
-
-    }
-
+        return false;
+    })
 })
 // 屏幕滑动 ///////////////////////////////////////////////////////////////////
 
@@ -384,7 +380,7 @@ let doubleOut = ref(null);
 
     }
 
-    .loader{
+    .loader {
         width: 100%;
         height: 94vh;
     }
