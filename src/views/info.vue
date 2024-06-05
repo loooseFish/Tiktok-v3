@@ -3,7 +3,7 @@
         <div class="header">
             <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
             <span>消息</span>
-            <span>联系人&nbsp;&nbsp;</span>
+            <span @click="jumpContact">联系人&nbsp;&nbsp;</span>
         </div>
         <div class="attrs">
             <div>
@@ -67,6 +67,14 @@
 
 <script setup>
 
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+
+let jumpContact = function () {
+    router.push({ path: '/contact' })
+}
+
 </script>
 
 <style scoped lang="less">
@@ -97,6 +105,7 @@
     width: 100%;
     height: (42 / @rootsize);
     .displayFlex(center, row);
+    font-size: (14 / @rootsize);
     justify-content: space-between;
 }
 
@@ -129,7 +138,7 @@
     }
 }
 
-.main{
+.main {
     width: 100%;
     height: (500 / @rootsize);
     .displayFlex(center, column);

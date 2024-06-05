@@ -3,7 +3,7 @@
   <Transition name="login">
     <AsyncComp v-if="loginShow" />
   </Transition>
-  <Vfooter />
+  <Vfooter v-show="footerShow"/>
   <!-- <loader /> -->
 </template>
 
@@ -34,6 +34,10 @@ const $store = useDataStore();
 const loginShow = computed({
   get: () => $store.loginShow,
   set: (value) => $store.loginShow = value
+});
+const footerShow = computed({
+  get: () => $store.footerShow,
+  set: (value) => $store.footerShow = value
 });
 
 </script>
