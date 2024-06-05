@@ -10,12 +10,16 @@ import home from '../views/home.vue'
 import attention from '../views/attention.vue'
 import info from '../views/info.vue'
 import mine from '../views/mine.vue'
+import uploadVideo from '../views/uploadVideo.vue';
+import contact from '../views/contact.vue';
 // home
 import login from '../components/home/login.vue'
 // mine
 import works from '../components/mine/works.vue'
 import likes from '../components/mine/likes.vue'
 import dynamic from '../components/mine/dynamic.vue'
+// uploadVideo
+
 
 const routes = [
     {
@@ -34,6 +38,14 @@ const routes = [
     {
         path: '/info',
         component: info
+    },
+    {
+        path: '/uploadVideo',
+        component: uploadVideo
+    },
+    {
+        path: '/contact',
+        component: contact
     },
     {
         path: '/mine',
@@ -73,6 +85,16 @@ router.beforeEach((to, from, next) => {
         get: () => $store.loginShow,
         set: (value) => $store.loginShow = value
     });
+    const footerShow = computed({
+        get: () => $store.footerShow,
+        set: (value) => $store.footerShow = value
+    });
+
+    if(to.path == '/uploadVideo' || to.path == '/contact'){
+        footerShow.value = false;
+    }else{
+        footerShow.value = true;
+    }
 
     if (to.path == '/home') {
         next();

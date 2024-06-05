@@ -5,12 +5,13 @@ export const useDataStore = defineStore('data', {
         return {
             loginShow: false,
             loaderShow: false,
+            footerShow: true,
         }
     },
     getters: {
 
     },
     actions: {
-        
+
     },
 })

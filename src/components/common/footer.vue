@@ -2,7 +2,7 @@
     <div ref="footer" class="footer">
         <div class="block active" @click="checkThis(0, 'home')">首页</div>
         <div class="block noactive" @click="checkThis(1, 'attention')">关注</div>
-        <div class="addimg">
+        <div class="addimg" @click="checkThis(4, 'uploadVideo')">
             <img src="/src/assets/add.svg" alt="">
         </div>
         <div class="block noactive" @click="checkThis(2, 'info')">消息</div>
@@ -15,11 +15,12 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { switchBar } from '../../hooks/use-switchBar';
+
 // 路由优化 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 const router = useRouter();
-if (router.path !== '/home') {
-    router.replace('/home')
-}
+// if (router.path !== '/home') {
+//     router.replace('/home')
+// }
 // 路由优化 ////////////////////////////////////
 
 
@@ -29,8 +30,12 @@ let oldArr = [];
 let newArr = [];
 
 let checkThis = function (index, path) {
-    if(localStorage.getItem('data')){
-        switchBar(newArr, index, 'block active', 'block noactive');
+    if (index == 4) {
+        router.push({ path: `/${path}` });
+    } else {
+        if (localStorage.getItem('data')) {
+            switchBar(newArr, index, 'block active', 'block noactive');
+        }
     }
 
     router.push({ path: `/${path}` });
@@ -78,7 +83,7 @@ onMounted(() => {
     bottom: 0;
 
     border-top: (1 / @rootsize) solid #eeeeee36;
-    box-shadow: (0 / @rootsize) (-5 / @rootsize) (5 / @rootsize) #eeeeee10; 
+    box-shadow: (0 / @rootsize) (-5 / @rootsize) (5 / @rootsize) #eeeeee10;
     .displayFlex(center, row);
 
     background-color: #161622;
@@ -86,10 +91,11 @@ onMounted(() => {
     width: 100%;
     height: 7vh;
 
-    .addimg{
+    .addimg {
         position: relative;
         top: (2 / @rootsize);
-        img{
+
+        img {
             width: (40 / @rootsize);
         }
     }

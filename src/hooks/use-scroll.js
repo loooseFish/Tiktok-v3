@@ -20,7 +20,7 @@ export function move(target, fresh, upload) {
 
         // 检测是否到顶
         if (target.scrollTop == 0 && moveY > startY) {
-            freshing(fresh, (startY - moveY) / 3).offInching();
+            freshing(fresh, (startY - moveY) / 5).offInching();
         }
 
         uploading(upload, (moveY - startY) / 2.5).offInching();

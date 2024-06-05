@@ -224,6 +224,7 @@ let checkRouter = function (path, index) {
 
             .tab {
                 width: 100%;
+                font-size: (14 / @rootsize);
                 .displayFlex(center, row);
 
                 .tab-item {
