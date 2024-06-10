@@ -18,8 +18,8 @@ import login from '../components/home/login.vue'
 import works from '../components/mine/works.vue'
 import likes from '../components/mine/likes.vue'
 import dynamic from '../components/mine/dynamic.vue'
-// uploadVideo
-
+// contact
+import chatWith from '../components/contact/chatWith.vue';
 
 const routes = [
     {
@@ -46,6 +46,10 @@ const routes = [
     {
         path: '/contact',
         component: contact
+    },
+    {
+        path: '/chatWith',
+        component: chatWith
     },
     {
         path: '/mine',
@@ -90,7 +94,7 @@ router.beforeEach((to, from, next) => {
         set: (value) => $store.footerShow = value
     });
 
-    if(to.path == '/uploadVideo' || to.path == '/contact'){
+    if(to.path == '/uploadVideo' || to.path == '/contact'  || to.path == '/chatWith'){
         footerShow.value = false;
     }else{
         footerShow.value = true;

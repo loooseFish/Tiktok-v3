@@ -20,10 +20,10 @@ export function move(target, fresh, upload) {
 
         // 检测是否到顶
         if (target.scrollTop == 0 && moveY > startY) {
-            freshing(fresh, (startY - moveY) / 5).offInching();
+            freshing(fresh, (startY - moveY) / 3).offInching();
         }
 
-        uploading(upload, (moveY - startY) / 2.5).offInching();
+        uploading(upload, (moveY - startY) / 3).offInching();
 
     }
 
@@ -33,11 +33,11 @@ export function move(target, fresh, upload) {
         uploading(upload, 0).onInching();
         // 判断到底
         if (target.clientHeight + target.scrollTop >= target.scrollHeight - 1) {
-            
+
         }
     }
 
-    target.addEventListener('touchstart', startRefresh);
-    target.addEventListener('touchmove', moveRefresh);
-    target.addEventListener('touchend', endRefresh);
+    target.addEventListener('touchstart', startRefresh, { passive: true });
+    target.addEventListener('touchmove', moveRefresh, { passive: true });
+    target.addEventListener('touchend', endRefresh, { passive: true });
 }

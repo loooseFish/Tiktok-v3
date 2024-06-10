@@ -8,7 +8,7 @@ app.use(router);
 import pinia from './utils/pinia.js'
 app.use(pinia);
 // 注册全局插件 ----------------------------------------------------
-import myPlugin from './utils/prototype/index.js';
+import myPlugin from './plugins/prototype/index.js';
 app.use(myPlugin)
 
 app.mount('#app')

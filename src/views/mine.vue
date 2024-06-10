@@ -4,6 +4,16 @@
             <span>
                 <img src="http://43.138.15.137:8080/assets/img/281578538336_.pic_hd.e816ad71.jpg" alt=" ">
             </span>
+
+            <div class="showChange" @click="showChange">
+                ...
+            </div>
+
+            <div ref="change" class="change">
+                <div @click="editMine">修改个人信息</div>
+                <div>注销</div>
+            </div>
+
         </div>
         <div class="self">
             <div class="selfInfo">
@@ -49,26 +59,40 @@
                         </keep-alive>
                     </router-view>
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
+    <Transition name="edit">
+        <AsyncComp v-if="showEdit" :selfData="selfData" @send="editMine" />
+    </Transition>
+
 </template>
 
 <script setup>
 // API
-import { onBeforeMount, onMounted, ref } from 'vue';
+import { onBeforeMount, onMounted, ref, defineAsyncComponent } from 'vue';
 // axios
-import { selfVideosInfo } from '../service/course';
+import { selfInfo } from '../service/course';
 // router
 import { useRouter } from 'vue-router';
 const router = useRouter();
 // hooks
 import { switchBar } from '../hooks/use-switchBar';
 import { move } from '../hooks/use-scroll';
-// 组件
+// 异步组件
+const AsyncComp = defineAsyncComponent({
+    loader: () => import('../components/mine/edit.vue')
+})
 
+let selfData = ref(null);
 onBeforeMount(async () => {
-    // await selfVideosInfo().then(res => console.log(res))
+    await selfInfo().then(res => {
+        selfData.value = res.data.data;
+    });
 })
 
 // 路由跳转 \\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -77,9 +101,30 @@ let tab = ref(null);
 let checkRouter = function (path, index) {
     router.push({ path: path });
 
-    switchBar(tab.value.children, index, 'tab-item isActive', 'tab-item')
+    switchBar(tab.value.children, index, 'tab-item isActive', 'tab-item');
 }
 // 路由跳转 //////////////////////////
+
+// 显示编辑按钮
+let showFlag = ref(false);
+let change = ref(null)
+let showChange = function () {
+    showFlag.value = !showFlag.value
+    if (showFlag.value) {
+        change.value.style.top = 16 + 'vw';
+        change.value.style.opacity = 1;
+    } else {
+        change.value.style.top = 50 + 'vw';
+        change.value.style.opacity = 0;
+    }
+}
+
+// 编辑页面处理
+let showEdit = ref(false);
+
+let editMine = function (val) {
+    showEdit.value = !showEdit.value;
+}
 
 // // 下拉刷新，上拉加载
 // let main = ref(null);
@@ -107,22 +152,39 @@ let checkRouter = function (path, index) {
 
 .after() {
     content: '';
-    display: inline - block;
+    display: inline-block;
     position: absolute;
 }
 
 // ----------------------------------------------
+
+.edit-enter-from,
+.edit-leave-to {
+    opacity: 0;
+    left: 100%;
+}
+
+.edit-enter-active,
+.edit-leave-active {
+    transition: all 0.5s;
+}
+
+.edit-enter-to,
+.edit-leave-from {
+    left: 0%;
+}
+
 .main {
     height: 94vh;
     overflow: scroll;
 
     .backPic {
+        position: relative;
         width: 100%;
         height: (160 / @rootsize);
         text-align: center;
 
         overflow: hidden;
-
 
         span {
             img {
@@ -134,6 +196,48 @@ let checkRouter = function (path, index) {
                 height: 100%;
                 object-fit: cover;
             }
+        }
+
+
+
+        .showChange {
+            position: absolute;
+            top: (10 / @rootsize);
+            right: (10 / @rootsize);
+            width: (30 / @rootsize);
+            height: (30 / @rootsize);
+            border-radius: 50%;
+            text-align: center;
+            line-height: (20 / @rootsize);
+            background-color: #00000060;
+            font-size: (14 / @rootsize);
+        }
+
+        .change {
+            position: absolute;
+            right: (10 / @rootsize);
+            width: (80 / @rootsize);
+            height: (90 / @rootsize);
+            background-color: #00000090;
+            font-size: (12 / @rootsize);
+            display: flex;
+            flex-direction: column;
+            border-radius: (2 / @rootsize);
+            justify-content: space-evenly;
+            transition: all 0.5s;
+
+            top: (200 / @rootsize);
+            opacity: 0;
+        }
+
+        .change::after {
+            .after();
+            top: (-17.2 / @rootsize);
+            right: (7 / @rootsize);
+            border-top: (9 / @rootsize) solid #00000000;
+            border-bottom: (9 / @rootsize) solid #00000090;
+            border-left: (9 / @rootsize) solid #00000000;
+            border-right: (9 / @rootsize) solid #00000000;
         }
     }
 
@@ -246,5 +350,41 @@ let checkRouter = function (path, index) {
         }
 
     }
+}
+
+@keyframes in {
+    0% {
+        top: (200 / @rootsize);
+        opacity: 0;
+    }
+
+    50% {
+        top: (100 / @rootsize);
+        opacity: .5;
+    }
+
+    100% {
+        top: (50 / @rootsize);
+        opacity: 1;
+    }
+
+}
+
+@keyframes out {
+    0% {
+        top: (50 / @rootsize);
+        opacity: 1;
+    }
+
+    50% {
+        top: (100 / @rootsize);
+        opacity: .5;
+    }
+
+    100% {
+        top: (200 / @rootsize);
+        opacity: 0;
+    }
+
 }
 </style>
