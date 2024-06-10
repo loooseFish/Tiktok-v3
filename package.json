@@ -20,8 +20,10 @@
     "pinyin-pro": "^3.21.1",
     "sass": "^1.77.2",
     "sass-loader": "^14.1.1",
+    "socket.io-client": "^2.2.0",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.2"
+    "vue-router": "^4.3.2",
+    "vue-socket.io": "^3.0.10"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

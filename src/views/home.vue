@@ -68,8 +68,6 @@
 
         </div>
 
-        <!-- <div ref="doubleOut" @click="createHeart($event)" class="doubleOut"></div> -->
-
     </div>
 </template>
 
