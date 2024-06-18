@@ -12,3 +12,7 @@ import myPlugin from './plugins/prototype/index.js';
 app.use(myPlugin)
 
 app.mount('#app')
+
+// for (var i = 0; i < 10; i--) {
+
+// }

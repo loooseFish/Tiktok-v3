@@ -1,7 +1,10 @@
 // pinia注入
 import pinia from '../utils/pinia';
+
 import { useDataStore } from '../store';
+
 const $store = useDataStore(pinia);
+
 import { computed } from 'vue';
 const loaderShow = computed({
     get: () => $store.loaderShow,

@@ -19,7 +19,10 @@
                 <div class="headPhoto">
                     <div class="photo">
                         <label for="fileUpload">
-                            <img ref="head" :src="img.trim() === '' ? 'http://43.138.15.137:3000' + selfData.userAvatar : img" alt=" ">
+                            <!-- 'http://43.138.15.137:3000' + selfData.value.userAvatar -->
+                            <img ref="head"
+                                :src="img === '' ? 'http://43.138.15.137:3000/assets/avatar/0c34a42d-f0e1-4f13-ad18-c6cdf7ccc060.png' : img"
+                                alt=" ">
                         </label>
                         <input @change="cutPhoto" type="file" id="fileUpload" />
                     </div>

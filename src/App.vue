@@ -5,12 +5,15 @@
   </Transition>
   <Vfooter v-show="footerShow" />
   <!-- <loader /> -->
+   <tips />
 </template>
 
 <script setup>
 // 组件注册
 import Vfooter from './components/common/footer.vue';
 import login from './components/home/login.vue';
+
+import tips from './components/common/tips.vue';
 
 const AsyncComp = defineAsyncComponent(() => {
   return new Promise((resolve, reject) => {
@@ -25,11 +28,14 @@ import { defineAsyncComponent } from 'vue';
 // Pinia注入
 import { useDataStore } from './store';
 import { computed } from 'vue'
+
 const $store = useDataStore();
+
 const loginShow = computed({
   get: () => $store.loginShow,
   set: (value) => $store.loginShow = value
 });
+
 const footerShow = computed({
   get: () => $store.footerShow,
   set: (value) => $store.footerShow = value

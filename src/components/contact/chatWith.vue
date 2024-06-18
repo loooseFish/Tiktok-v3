@@ -6,6 +6,7 @@
             <span>{{ toName }}</span>
             <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
         </div>
+
         <br>
 
         <div ref="freshing"></div>
@@ -130,8 +131,10 @@ let contact = ref(null);
 let freshing = ref(null);
 let uploading = ref(null);
 let toUnder = () => {
-    // 滚动滑钮到滚动条顶部的距离=滚动条的高度
+    // 滚动条顶部的距离 = 滚动条的高度
     content.value.scrollTop = content.value.scrollHeight
+
+    console.log(content.value);
 }
 onMounted(() => {
     move(content.value, freshing.value, uploading.value);

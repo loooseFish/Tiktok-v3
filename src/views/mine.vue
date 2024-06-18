@@ -1,6 +1,7 @@
 <template>
     <div ref="main" class="main">
-        <div class="backPic">
+        
+        <div ref="fresh" class="backPic">
             <span>
                 <img src="http://43.138.15.137:8080/assets/img/281578538336_.pic_hd.e816ad71.jpg" alt=" ">
             </span>
@@ -15,7 +16,8 @@
             </div>
 
         </div>
-        <div class="self">
+
+        <div ref="self" class="self">
             <div class="selfInfo">
                 <div class="header">
                     <div class="headPhoto">
@@ -63,6 +65,8 @@
             </div>
 
         </div>
+
+        <div ref="upload" class="upload"></div>
 
     </div>
 
@@ -126,11 +130,13 @@ let editMine = function (val) {
     showEdit.value = !showEdit.value;
 }
 
-// // 下拉刷新，上拉加载
-// let main = ref(null);
-// onMounted(() => {
-//     move(main.value);
-// })
+// 下拉刷新，上拉加载
+let self = ref(null);
+let upload = ref(null);
+let fresh = ref(null);
+onMounted(() => {
+    move(self.value, fresh.value, upload.value);
+})
 
 </script>
 
@@ -179,7 +185,8 @@ let editMine = function (val) {
     overflow: scroll;
 
     .backPic {
-        position: relative;
+        position: sticky;
+        top: 0;
         width: 100%;
         height: (160 / @rootsize);
         text-align: center;
@@ -242,6 +249,7 @@ let editMine = function (val) {
     }
 
     .self {
+        background-color: #161622;
         position: relative;
         .displayFlex(baseline, column);
 

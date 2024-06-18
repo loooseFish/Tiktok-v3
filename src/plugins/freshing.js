@@ -4,10 +4,17 @@ const app = createApp(App)
 
 import freshing from '../components/common/freshing.vue'
 
-export function fresh(node = document.body, height = 100) {
+export function fresh(node = document.body, height = 160) {
     const VNode = createVNode(freshing);
     render(VNode, node);
-    VNode.el.style.height = `${-height * 0.26667}vw`;
+
+    height = height < 0 ? -height : height;
+
+    if (node.children.length > 1) {
+        node.style.height = `${height * 0.26667}vw`;
+    } else {
+        VNode.el.style.height = `${height * 0.26667}vw`;
+    }
 
     return {
         onInching: VNode.component?.exposed.onInching,

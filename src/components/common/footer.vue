@@ -18,9 +18,9 @@ import { switchBar } from '../../hooks/use-switchBar';
 
 // 路由优化 \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 const router = useRouter();
-// if (router.path !== '/home') {
-//     router.replace('/home')
-// }
+if (router.path !== '/home') {
+    router.replace('/home')
+}
 // 路由优化 ////////////////////////////////////
 
 

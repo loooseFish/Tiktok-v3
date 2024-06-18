@@ -35,7 +35,7 @@ const props = defineProps(['needPhoto']);
 let photo = ref(props.needPhoto);
 const emits = defineEmits(['send']);
 
-const handleSubmit = (val = null) => {
+const handleSubmit = (val = '') => {
     emits('send', val);
 }
 
@@ -53,6 +53,7 @@ onMounted(() => {
     clipcanvas.value.height = document.body.clientHeight - (document.body.clientHeight / 10);
 
     const ctx = canvas.value.getContext("2d");
+
     const baseW = 400;
     const flagW = 10;
     let bgConfig;
@@ -149,7 +150,13 @@ onMounted(() => {
 
     clipcanvas.value.addEventListener('touchmove', (e) => {
         if (start.value) {
-            fill(start.value.x, start.value.y - (start.value.y / 5), e.changedTouches[0].pageX - start.value.x, (e.changedTouches[0].pageY - e.changedTouches[0].pageY / 10) - start.value.y);
+
+            var startX = start.value.x;
+            var startY = start.value.y;
+            var touchX = e.changedTouches[0].pageX;
+            var touchY = e.changedTouches[0].pageY;
+
+            fill(startX, startY - (startY / 5), touchX - startX, (touchY - touchY / 10) - startY);
         }
     }, { passive: true })
 
@@ -165,10 +172,11 @@ onMounted(() => {
     confirm.value.addEventListener('click', async () => {
         let res = await uploadAvatar({ fieldName: `${postData.value}` });
 
-        if(res.status === 200){
+        postData.value = startClip(clipArea.value);
+
+        if (res.status === 200) {
             handleSubmit(postData.value);
         }
-
     })
 
     function fill(x, y, w, h) {
@@ -202,10 +210,14 @@ onMounted(() => {
 
     function startClip(area) {
         var canvas = document.createElement("canvas");
-        canvas.width = -clipArea.value.w;
-        canvas.height = -clipArea.value.h;
-        var data = ctx.getImageData(area.x, area.y, area.w, area.h);
         var context = canvas.getContext("2d");
+
+        canvas.width = area.w;
+        canvas.height = area.h / 2;
+
+        // ctx.canvas.willReadFrequently = true;
+        var data = ctx.getImageData(area.x, area.y, area.w, area.h);
+
         context.putImageData(data, 0, 0);
         return canvas.toDataURL("image/png");
     }

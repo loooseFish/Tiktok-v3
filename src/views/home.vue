@@ -4,7 +4,7 @@
 
         <div ref="content" class="content">
 
-            <div v-for="(item, index) in comData.slice(0, showVideos)" class="filler">
+            <div v-for="(item, index) in comData.slice(0, showVideos)" v-memo="[]" class="filler">
                 <div></div>
                 <div class="videoLayer">
                     <video :src="extract(comData[index], 'videoPath')" :poster="extract(comData[index], 'videoCover')"
